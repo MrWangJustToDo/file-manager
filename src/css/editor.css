@@ -1,0 +1,29 @@
+.editor-cover {
+  background-color: rgba(102, 102, 102, 0.3);
+}
+
+.editor-cover .editor {
+  width: calc(100% - 2.985075rem);
+  height: calc(100% - 2.985075rem);
+  left: 50%;
+  top: calc(50% - 0.298507rem);
+  transform: translate(-50%, -50%);
+  font-size: 0.238806rem;
+  border-radius: 0.149254rem;
+  background-color: #fff;
+}
+
+.editor-cover .btns {
+  font-size: 0.268657rem;
+  bottom: 0.597015rem;
+  right: 0.597015rem;
+}
+
+.editor-cover .btns input {
+  margin: 0 0.298507rem;
+  padding: 0.074627rem 0.149254rem ;
+}
+
+.code {
+  opacity: 0;
+}

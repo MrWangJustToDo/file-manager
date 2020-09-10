@@ -1,0 +1,71 @@
+.header {
+  height: 0.895522rem;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 0.029851rem 0.06rem 0px;
+  background-color: #fff;
+  z-index: 100;
+  font-size: 0px;
+  user-select: none;
+  z-index: 200;
+}
+
+.header-nav {
+  align-items: center;
+}
+
+.header-nav .head-logo {
+  width: 2.910448rem;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.header-nav .head-logo .head-logo-content {
+  height: 0.447761rem;
+  display: block;
+  color: transparent;
+  background-image: url(./logo.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.header-nav .head-logo .head-logo-content a {
+  font-size: 0;
+}
+
+.header-nav .head-path-ul {
+  max-width: calc(100% - 3rem);
+  overflow: auto;
+}
+
+.header-nav .head-path {
+  margin-left: 0.298507rem;
+  border-radius: 0.074627rem;
+}
+
+.header-nav .head-path::before {
+  content: "IndexOf:";
+  font-weight: bold;
+  font-size: 0.298507rem;
+  color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 0.149254rem 0.4rem;
+}
+
+.header-nav .head-path .head-path-item {
+  color: rgb(51, 51, 51);
+  padding: 0.149254rem 0.4rem;
+  background-color: rgba(0, 0, 0, 0.05);
+  font-size: 0.298507rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.header-nav .head-path .head-path-item::before {
+  content: "☞";
+}
+
+.header-nav .head-path .head-path-item:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: rgb(9, 170, 255);
+}
