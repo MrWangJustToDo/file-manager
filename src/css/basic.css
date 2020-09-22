@@ -89,6 +89,10 @@ i {
   position: relative;
 }
 
+.fixed {
+  position: fixed;
+}
+
 .box-center {
   margin: 0 auto;
 }

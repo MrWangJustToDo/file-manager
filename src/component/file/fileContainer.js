@@ -1,31 +1,24 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { useParams } from "react-router";
+import { useSelector } from "react-redux";
 import Image from "./previewImg/image";
 import Editor from "./codemirror/editor";
+import Video from "./previewVideo/video";
+import Audio from "./previewAudio/audio";
 import "animate.css";
 import "./file.css";
-import { useSelector, useDispatch } from "react-redux";
 
 function File() {
-  let getDirPath = useCallback((path) => {
-    if (path.includes("/")) {
-      path = path.slice(0, path.lastIndexOf("/"));
-    } else {
-      path = "";
-    }
-    return "/all/" + path;
-  }, []);
-  let { 0: path, type } = useParams();
-  let currentPath = getDirPath(path);
-  let dispatch = useDispatch();
-  let { currentRequestPath } = useSelector((state) => state);
-  if (currentRequestPath !== currentPath) {
-    dispatch({ type: "refresh", path: currentPath });
-  }
+  let { type } = useParams();
+  let { isLoaded } = useSelector((state) => state);
   if (type === "image") {
-    return <Image />;
+    return <>{isLoaded && <Image />}</>;
+  } else if (type === "video") {
+    return <>{isLoaded && <Video />}</>;
+  } else if (type === "audio") {
+    return <>{isLoaded && <Audio />}</>;
   } else {
-    return <Editor />;
+    return <>{isLoaded && <Editor />}</>;
   }
 }
 

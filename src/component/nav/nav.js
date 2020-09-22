@@ -1,6 +1,8 @@
 import React from "react";
 import NavFile from "./navFile";
 import NavEcharts from "./navEcharts";
+import NavRecover from "./navRecover";
+import NavTotalSize from "./navTotalSize";
 import "./nav.css";
 
 function Nav() {
@@ -9,6 +11,8 @@ function Nav() {
       <ul className="nav-select">
         <NavFile />
         <NavEcharts />
+        <NavRecover />
+        <NavTotalSize />
       </ul>
     </nav>
   );

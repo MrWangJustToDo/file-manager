@@ -5,10 +5,73 @@
   font-size: 0;
 }
 
+/* file-menu */
+
+.fm-contextmenu {
+  top: 1.791045rem;
+  left: 0.149254rem;
+  padding: 0.089552rem 0.149254rem;
+  border-radius: 0.089552rem;
+  background-color: #fff;
+  box-shadow: 0.014925rem 0.014925rem 0.044776rem 0.029851rem
+    rgba(100, 100, 100, 0.1);
+  user-select: none;
+  z-index: 200;
+}
+
+.fm-contextmenu:hover {
+  box-shadow: 0.044776rem 0.044776rem 0.059701rem 0.044776rem
+      rgba(150, 150, 150, 0.2),
+    -0.029851rem -0.029851rem 0.044776rem 0.029851rem rgba(150, 150, 150, 0.2);
+}
+
+.fm-context-ul {
+  min-width: 1.791045rem;
+  font-size: 0.208955rem;
+}
+
+.fm-context-ul .fm-context-item {
+  padding: 0.119403rem 0.208955rem;
+  border-radius: 0.074627rem;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.fm-context-ul .fm-context-item i {
+  font-size: 0.179104rem;
+  width: 0.38806rem;
+  padding: 0 0.149254rem 0 0;
+}
+
+.fm-context-ul .fm-context-item.disable {
+  background-color: rgba(200, 200, 200, 0.1);
+  color: rgba(0, 0, 0, 0.3);
+  cursor: not-allowed;
+}
+
+.fm-context-ul .fm-context-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  width: 98%;
+  height: 0.029851rem;
+  top: calc(100% - 0.014925rem);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ddd;
+}
+
+.fm-context-ul .fm-context-item:not(.disable):hover {
+  background-color: rgba(150, 150, 150, 0.06);
+  color: rgb(9, 170, 255);
+}
+
+/* file-menu */
+
 /* fm-table-container */
 
 .fm-table-container {
-  height: calc(100% - 0.2rem);
+  height: calc(100% - 0.3rem);
+  user-select: none;
 }
 
 .fm-table-header {
@@ -77,12 +140,54 @@
 }
 
 .fm-table-header-rightTools .fm-table-header-search-input {
-  font-size: 0.238806rem;
+  font-size: 0.208955rem;
   border: none;
   outline: none;
   background-color: transparent;
   width: 3.358209rem;
   padding: 0 0.80597rem 0 0.223881rem;
+}
+
+.fm-table-header-rightTools .fm-table-header-search .fm-table-ul {
+  width: 100%;
+  font-size: 0.179104rem;
+  background-color: rgb(247, 247, 247);
+  border-radius: 0.179104rem;
+  margin-top: 0.179104rem;
+  z-index: 200;
+  top: 100%;
+  left: 0;
+}
+
+.fm-table-header-rightTools .fm-table-header-search .fm-table-ul:hover {
+  box-shadow: 0 0 0.119403rem 0.029851rem rgba(0, 0, 0, 0.15);
+}
+
+.fm-table-header-rightTools
+  .fm-table-header-search
+  .fm-table-ul
+  .fm-table-list {
+  padding: 0.149254rem 0.298507rem;
+  border-radius: 0.074627rem;
+  cursor: pointer;
+}
+
+.fm-table-header-rightTools
+  .fm-table-header-search
+  .fm-table-ul
+  .fm-table-list
+  i {
+  color: rgb(9, 170, 255);
+  font-size: 0.164179rem;
+  width: 0.268657rem;
+  padding-right: 0.089552rem;
+}
+
+.fm-table-header-rightTools
+  .fm-table-header-search
+  .fm-table-ul
+  .fm-table-list:hover {
+  background-color: rgb(209, 234, 248);
 }
 
 .fm-table-header-rightTools ::placeholder {
@@ -106,7 +211,7 @@
 
 .fm-table {
   overflow: auto;
-  max-height: calc(100% - 1rem);
+  height: calc(100% - 1rem);
 }
 
 .fm-table .fm-table-show {
@@ -127,11 +232,10 @@
   text-indent: 0.298507rem;
   text-align: left;
   user-select: none;
-  cursor: pointer;
   position: sticky;
   background-color: #fff;
   box-shadow: 0 0.029851rem 0.029851rem rgba(200, 200, 200, 0.2);
-  z-index: 70;
+  z-index: 10;
   top: 0;
 }
 
@@ -145,7 +249,7 @@
   background-color: rgb(244, 251, 255);
 }
 
-.fm-table .fm-table-show tbody tr td input {
+.fm-table .fm-table-show tbody tr td input[type="checkbox"] {
   width: 0.208955rem;
   height: 0.208955rem;
   border-radius: 0.059701rem;
@@ -165,7 +269,21 @@
   font-size: 0.238806rem;
 }
 
-.fm-table .fm-table-show tbody tr td:first-child a {
+.fm-table .fm-table-show tbody tr td .fm-table-rename {
+  border: none;
+  outline: none;
+  box-shadow: 0.014925rem 0.014925rem 0 0.014925rem #ccc inset,
+    -0.014925rem -0.014925rem 0 0.014925rem #ccc inset,
+    0.014925rem -0.014925rem 0 0.014925rem #ccc inset,
+    -0.014925rem 0.014925rem 0 0.014925rem #ccc inset;
+  border-radius: 0.149254rem;
+  top: 0;
+  padding: 0.179104rem 0.074627rem;
+  margin: -0.179104rem 0.298507rem;
+}
+
+.fm-table .fm-table-show tbody tr td:first-child a,
+.fm-table .fm-table-show tbody tr td .fm-table-rename {
   max-width: 70%;
   overflow: hidden;
   white-space: nowrap;
@@ -179,6 +297,10 @@
   font-size: 0.208955rem;
   width: auto;
   height: auto;
+  text-indent: 0;
+}
+
+.fm-table .fm-table-show tbody tr td:first-child .fm-table-submit input {
   border: none;
   border-radius: 0.059701rem;
   padding: 0.029851rem 0.119403rem;
@@ -186,6 +308,11 @@
   background-color: rgb(244, 251, 255);
   color: rgb(9, 170, 255);
   cursor: pointer;
+}
+
+.fm-table .fm-table-show tbody tr td:first-child .fm-table-submit input:hover {
+  background-color: rgb(234, 241, 245);
+  box-shadow: 0.014925rem 0.044776rem 0.059701rem rgba(200, 200, 200, 0.4);
 }
 
 .fm-table .fm-table-show tbody tr td.success-submit::after {
@@ -216,11 +343,7 @@
   border-radius: 0.059701rem;
   background-color: rgba(0, 0, 0, 0.12);
   padding: 0.029851rem 0.119403rem;
-}
-
-.fm-table .fm-table-show tbody tr td:first-child .fm-table-submit:hover {
-  background-color: rgb(234, 241, 245);
-  box-shadow: 0.014925rem 0.044776rem 0.059701rem rgba(200, 200, 200, 0.4);
+  z-index: 100;
 }
 
 .fm-table .fm-table-checkAll {
@@ -245,8 +368,11 @@
 }
 
 .fm-table-big {
-  padding: 0.268657rem 0.268657rem;
+  box-shadow: 0 0.014925rem 0 0.014925rem rgba(0, 0, 0, 0.03) inset;
   font-size: 0;
+  height: calc(100% - 1rem);
+  padding: 0.223881rem 0.074627rem;
+  overflow: auto;
 }
 
 .fm-table-big .fm-file-item,
@@ -255,7 +381,6 @@
   position: relative;
   margin: 0.208955rem 0.208955rem;
   font-size: 0.238806rem;
-  border: 0.014925rem solid #eee;
   color: rgb(102, 102, 102);
   padding: 0.149254rem 0;
   border-radius: 0.089552rem;
@@ -263,6 +388,13 @@
   user-select: none;
   cursor: pointer;
   text-align: center;
+}
+
+.fm-table-big .fm-file-item:hover,
+.fm-table-big .fm-folder-item:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 0 0 0.014925rem rgba(0, 0, 0, 0.08) inset,
+    0 0 0.149254rem 0.029851rem rgba(0, 0, 0, 0.12);
 }
 
 .fm-table-big .fm-file-item i,
@@ -316,29 +448,27 @@
   box-shadow: 0.014925rem 0.044776rem 0.059701rem rgba(200, 200, 200, 0.4);
 }
 
-.fm-table-big .fm-file-item:hover,
-.fm-table-big .fm-folder-item:hover {
-  color: white;
-  background-color: rgb(9, 170, 255);
-}
-
-.fm-table-big .fm-file-item:hover i,
-.fm-table-big .fm-folder-item:hover i {
-  color: white;
+.fm-table-big .fm-file-item::before {
+  opacity: 0;
+  content: "";
 }
 
 .fm-table-big .fm-file-item:hover::before {
+  opacity: 1;
   position: absolute;
   font-size: 0.179104rem;
   content: "右键选中";
+  color: rgb(184, 151, 8);
   right: 0.119403rem;
   top: 0.074627rem;
 }
 
 .fm-table-big .fm-file-item.check::before {
+  opacity: 1;
   position: absolute;
   font-size: 0.298507rem;
-  content: "☑";
+  content: "✔";
+  color: rgb(9, 170, 255);
   right: 0.119403rem;
   top: 0.074627rem;
 }
@@ -430,3 +560,68 @@
 }
 
 /* fm-echarts-container */
+
+/* check radio */
+
+.fm-file-checkBox .fm-file-checkItem {
+  width: 0.298507rem;
+  height: 0.149254rem;
+  border: 0.014925rem solid #ccc;
+  padding: 0.029851rem;
+  border-radius: 0.149254rem;
+  box-sizing: content-box;
+  cursor: pointer;
+  box-shadow: 0 0 0 0 rgba(9, 170, 255, 0.9) inset;
+}
+
+.fm-file-checkBox.disable .fm-file-checkItem {
+  cursor: not-allowed;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.fm-file-checkBox input[type="checkbox"] {
+  display: none;
+}
+
+.fm-file-checkBox .fm-file-checkItem::before {
+  content: "";
+  position: absolute;
+  width: 0.149254rem;
+  height: 0.149254rem;
+  border: 0.014925rem solid #ddd;
+  border-radius: 50%;
+  box-sizing: border-box;
+  left: 0.022388rem;
+  top: 0.029851rem;
+  z-index: 2;
+  background-color: white;
+  box-shadow: 0 0 0 0.014925rem rgba(0, 0, 0, 0.3);
+}
+
+.fm-file-checkBox .fm-file-checkItem::after {
+  content: "";
+  position: absolute;
+  width: 0.149254rem;
+  height: 0.149254rem;
+  border-radius: 0.149254rem;
+  background-color: rgba(9, 170, 255, 0.9);
+  box-sizing: border-box;
+  left: 0.022388rem;
+  top: 0.029851rem;
+}
+
+.fm-file-checkBox.check .fm-file-checkItem::before {
+  left: 0.149254rem;
+  box-shadow: 0 0 0.044776rem 0.014925rem rgba(0, 0, 0, 0.3);
+}
+
+.fm-file-checkBox.check .fm-file-checkItem::after {
+  width: 0.298507rem;
+}
+
+.fm-file-checkBox.check .fm-file-checkItem {
+  box-shadow: 0 0 0 0.149254rem rgba(9, 170, 255, 0.9) inset;
+  border-color: rgba(9, 170, 255, 0.9);
+}
+
+/* check radio */

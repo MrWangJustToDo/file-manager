@@ -1,64 +1,77 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
 function NavFile() {
-  let { showModel, filter } = useSelector((store) => store);
-  
+  let history = useHistory();
   let dispatch = useDispatch();
+  let { fileModel, filterName, recoverModel, preRequestPath } = useSelector(
+    (store) => store
+  );
+  let fileHandler = useCallback(
+    (e) => {
+      if (recoverModel) {
+        history.push(preRequestPath);
+      }
+      dispatch({ type: "enableFileModel" });
+      dispatch({ type: "changeFilter", filterName: e.target.dataset.name });
+    },
+    [recoverModel, dispatch, preRequestPath, history]
+  );
 
   return (
     <>
       <li
         className={
-          showModel === "fileModel" && filter === "filterDefault"
+          fileModel && filterName === "filterDefault"
             ? "relative check"
             : "relative"
         }
-        onClick={() => {
-          dispatch({ type: "changeFilter", content: "filterDefault" });
-          dispatch({ type: "changeShowModel", content: "fileModel" });
-        }}
+        onClick={fileHandler}
       >
-        <i className="absolute fas fa-folder-open"></i>
-        <span className="block nav-select-item">全部文件</span>
+        {fileModel ? (
+          <i className="absolute fas fa-folder-open"></i>
+        ) : (
+          <i className="absolute fas fa-folder"></i>
+        )}
+        <span className="block nav-select-item" data-name="filterDefault">
+          全部文件
+        </span>
       </li>
       <li
         className={
-          showModel === "fileModel" && filter === "filterText"
+          fileModel && filterName === "filterText"
             ? "relative check"
             : "relative"
         }
-        onClick={() => {
-          dispatch({ type: "changeFilter", content: "filterText" });
-          dispatch({ type: "changeShowModel", content: "fileModel" });
-        }}
+        onClick={fileHandler}
       >
-        <span className="block nav-select-item">文档</span>
+        <span className="block nav-select-item" data-name="filterText">
+          文档
+        </span>
       </li>
       <li
         className={
-          showModel === "fileModel" && filter === "filterImg"
+          fileModel && filterName === "filterImg"
             ? "relative check"
             : "relative"
         }
-        onClick={() => {
-          dispatch({ type: "changeFilter", content: "filterImg" });
-          dispatch({ type: "changeShowModel", content: "fileModel" });
-        }}
+        onClick={fileHandler}
       >
-        <span className="block nav-select-item">图片</span>
+        <span className="block nav-select-item" data-name="filterImg">
+          图片
+        </span>
       </li>
       <li
         className={
-          showModel === "fileModel" && filter === "filterVideo"
+          fileModel && filterName === "filterVideo"
             ? "relative check"
             : "relative"
         }
-        onClick={() => {
-          dispatch({ type: "changeFilter", content: "filterVideo" });
-          dispatch({ type: "changeShowModel", content: "fileModel" });
-        }}
+        onClick={fileHandler}
       >
-        <span className="block nav-select-item">视频</span>
+        <span className="block nav-select-item" data-name="filterVideo">
+          视频
+        </span>
       </li>
     </>
   );

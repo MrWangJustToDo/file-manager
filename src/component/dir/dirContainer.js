@@ -1,15 +1,32 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import Table from "./table/fileContainer";
-import Echarts from "./echarts/echartsContainer";
+import React, { useEffect } from "react";
+import { useLocation } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import FileContainer from "./fileContainer/fileContainer";
+import EchartsContainer from "./echartsContainer/echartsContainer";
 import "./dir.css";
 
 export default () => {
-  let showModel = useSelector((state) => state.showModel);
+  let location = useLocation();
+  let dispatch = useDispatch();
+  let {
+    currentRequestPath,
+    fileModel,
+    echartsModel,
+    data,
+    isLogin,
+  } = useSelector((state) => state);
+
+  // 加载资源
+  useEffect(() => {
+    if (isLogin && (currentRequestPath !== location.pathname || !data)) {
+      dispatch({ type: "refresh", currentRequestPath: location.pathname });
+    }
+  });
 
   return (
     <div className="fm-container relative overflow">
-      {showModel === "fileModel" ? <Table /> : <Echarts />}
+      {fileModel && <FileContainer />}
+      {echartsModel && <EchartsContainer />}
     </div>
   );
 };

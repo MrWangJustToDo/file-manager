@@ -1,5 +1,7 @@
 import React from "react";
 import "./css/basic.css";
+import "./css/all.css";
+import "./css/background.css";
 import "./css/animate.css";
 import RouteApp from "./component/routeApp";
 import store from "./component/redux/globalStore";

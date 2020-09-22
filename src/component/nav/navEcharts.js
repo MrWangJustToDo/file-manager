@@ -1,27 +1,31 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 
 function NavEcharts() {
-  let { showModel } = useSelector((state) => state);
+  let { echartsModel, recoverModel, preRequestPath } = useSelector(
+    (state) => state
+  );
 
   let dispatch = useDispatch();
 
+  let history = useHistory();
+
+  let echartsHandler = useCallback(() => {
+    if (recoverModel) {
+      history.push(preRequestPath);
+    }
+    dispatch({ type: "enableEchartsModel" });
+  }, [recoverModel, dispatch, preRequestPath, history]);
+
   return (
-    <>
-      <li
-        className={showModel === "echartsModel" ? "relative check" : "relative"}
-        onClick={() =>
-          dispatch({ type: "changeShowModel", content: "echartsModel" })
-        }
-      >
-        <i className="absolute fas fa-hdd"></i>
-        <span className="block nav-storage-item">空间占用</span>
-      </li>
-      <li className="relative">
-        <i className="absolute fas fa-archive"></i>
-        <span className="block nav-archive-item">回收站</span>
-      </li>
-    </>
+    <li
+      className={echartsModel ? "relative check" : "relative"}
+      onClick={echartsHandler}
+    >
+      <i className="absolute fas fa-hdd"></i>
+      <span className="block nav-storage-item">空间占用</span>
+    </li>
   );
 }
 

@@ -4,15 +4,27 @@ function filterDefault(path) {
 }
 // 文件过滤
 function filterText(item) {
-  return mime.contentType(item).startsWith("text");
+  try {
+    return mime.contentType(item).startsWith("text");
+  } catch (e) {
+    return true;
+  }
 }
 // 图片过滤
 function filterImg(item) {
-  return mime.contentType(item).startsWith("image");
+  try {
+    return mime.contentType(item).startsWith("image");
+  } catch (e) {
+    return true;
+  }
 }
 // 视频过滤
 function filterVideo(item) {
-  return mime.contentType(item).startsWith("video");
+  try {
+    return mime.contentType(item).startsWith("video");
+  } catch (e) {
+    return true;
+  }
 }
 
 export { filterDefault, filterText, filterImg, filterVideo };

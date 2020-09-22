@@ -1,15 +1,17 @@
 // head组件
 import React from "react";
-import Logo from "./logo";
-import Path from "./path";
+import HeadLogo from "./headLogo";
+import HeadPath from "./headPath";
+import HeadUser from "./headUser";
 import "./head.css";
 
 function Head() {
   return (
     <header className="header relative">
       <div className="header-nav height-inherit flex">
-        <Logo title="hello world!" />
-        <Path />
+        <HeadLogo title="hello world!" />
+        <HeadPath />
+        <HeadUser />
       </div>
     </header>
   );
