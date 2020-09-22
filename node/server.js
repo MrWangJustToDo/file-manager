@@ -56,7 +56,7 @@ app.use(
   })
 );
 
-// app.use(express.static(__dirname + "/build"));
+app.use(express.static("../build"));
 
 // 绑定数据库文件
 app.use(async (req, rex, next) => {

@@ -44,33 +44,33 @@ function Ediotr() {
       }
       if (length > editableLength) {
         setEditable(false);
+        code.setValue(" 文件内容过大,不支持预览 ");
       } else {
-        
-      }
-      // 获取过渡元素
-      let loadItem = jquery(load.current);
-      axiosGet(`/file/${path}`)
-        .then((data) => {
-          promiseNext(500, () => {
-            loadItem.css("height", 0);
+        // 获取过渡元素
+        let loadItem = jquery(load.current);
+        axiosGet(`/file/${path}`)
+          .then((data) => {
+            promiseNext(500, () => {
+              loadItem.css("height", 0);
+            })
+              .then(() =>
+                promiseNext(100, () => {
+                  loadItem.children("div").remove();
+                })
+              )
+              .then(() =>
+                promiseNext(420, () => {
+                  loadItem.remove();
+                })
+              )
+              .then(() => {
+                code.setValue(data.toString());
+              });
           })
-            .then(() =>
-              promiseNext(100, () => {
-                loadItem.children("div").remove();
-              })
-            )
-            .then(() =>
-              promiseNext(420, () => {
-                loadItem.remove();
-              })
-            )
-            .then(() => {
-              code.setValue(data.toString());
-            });
-        })
-        .catch((e) => {
-          code.setValue(e.toString());
-        });
+          .catch((e) => {
+            code.setValue(e.toString());
+          });
+      }
     }
     return () => code && code.setValue("");
   }, [data, code, path, id, editableLength, setEditable]);

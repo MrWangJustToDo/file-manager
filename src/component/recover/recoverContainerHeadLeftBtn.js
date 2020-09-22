@@ -8,7 +8,7 @@ function FileContainerHeadLeftBtn() {
       <RecoverContainerHeadCheckAll />
       <RecoverContainerHeadDeleteFile />
       <label className="inline-flex-center">
-        <span className="block">
+        <span className="block" title=" 功能未实现 ">
           <i className="fas fa-reply"></i>
           还原选中
         </span>

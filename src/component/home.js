@@ -34,7 +34,7 @@ function Home() {
     if (isLogin) {
       let a = document.createElement("a");
       a.href = `/${loginUsername}`;
-      ws = new WebSocket(`ws://localhost:10010/${loginUsername}`);
+      ws = new WebSocket(`ws://${a.host}/${loginUsername}`);
       ws.onmessage = (e) => {
         dispatch({ type: "updataRootFolderSize", rootFolderSize: e.data });
       };
