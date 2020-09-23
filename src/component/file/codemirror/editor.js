@@ -15,7 +15,7 @@ import { option } from "./codemirrorOption";
 import EditorCloseButton from "./editorCloseButton";
 import Load from "./editorLoad";
 import { promiseNext } from "../../tools/tools";
-import { axiosGet } from "../../tools/requestData";
+import { axiosPost } from "../../tools/requestData";
 
 // 文本编辑器
 function Ediotr() {
@@ -48,7 +48,7 @@ function Ediotr() {
       } else {
         // 获取过渡元素
         let loadItem = jquery(load.current);
-        axiosGet(`/file/${path}`)
+        axiosPost("/file/", { requestPath: path })
           .then((data) => {
             promiseNext(500, () => {
               loadItem.css("height", 0);

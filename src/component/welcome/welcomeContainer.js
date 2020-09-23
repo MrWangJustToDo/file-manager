@@ -16,14 +16,14 @@ function LoginContainer() {
     let item = jquery(ref.current);
     body.on("mousemove", (e) => {
       if (e.pageX <= body.outerWidth() / 2) {
-        item.css("backgroundPosition", "49%");
+        item.css("backgroundPositionX", "47%");
       } else {
-        item.css("backgroundPosition", "51%");
+        item.css("backgroundPositionX", "53%");
       }
       if (e.pageY <= body.outerHeight() / 2) {
-        item.css("backgroundPositionY", "49%");
+        item.css("backgroundPositionY", "47%");
       } else {
-        item.css("backgroundPositionY", "51%");
+        item.css("backgroundPositionY", "53%");
       }
     });
     return () => body.off("mousemove");

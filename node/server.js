@@ -13,7 +13,8 @@ const WebSocket = require("ws");
 const {
   getCurrentFolder,
   getRecoverFolder,
-  getCurrentFile,
+  getCurrentFileByPost,
+  getCurrentFileByGet,
   submitFile,
   uploadFile,
   deleteItem,
@@ -56,7 +57,7 @@ app.use(
   })
 );
 
-app.use(express.static("../build"));
+// app.use(express.static("../build"));
 
 // 绑定数据库文件
 app.use(async (req, rex, next) => {
@@ -247,15 +248,15 @@ app.post("/submit", submitFile);
 app.post("/upload", upload.single("file"), uploadFile);
 app.post("/delete", deleteItem);
 app.post("/rename", renameItem);
-app.post("/recover", recoverItem);
+app.post("/recoverItem", recoverItem);
 app.post("/createFile", createFile);
 app.post("/copyFile", copyFile);
 app.post("/createFolder", createFolder);
 app.post("/download", downloadFile);
-
-app.use("/all", getCurrentFolder);
-app.use("/recover", getRecoverFolder);
-app.use("/file", getCurrentFile);
+app.post("/all", getCurrentFolder);
+app.post("/recover", getRecoverFolder);
+app.post("/file", getCurrentFileByPost);
+app.use("/src", getCurrentFileByGet);
 
 // 捕获错误请求
 app.use((req, res, next) => {

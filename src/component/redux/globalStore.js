@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware } from "redux";
 import mime from "mime-types";
 import { reducerFunction } from "./actionFunc";
-import { axiosGet } from "../tools/requestData";
+import { axiosPost } from "../tools/requestData";
 
 // 全局store的reducer处理函数
 function listFilterReducer(state, action) {
@@ -111,13 +111,23 @@ export default createStore(
     (store) => (next) => (action) => {
       // 执行请求的中间件
       if (!action.isSamePath) {
-        axiosGet(action.currentRequestPath)
-          .then((data) => {
-            next({ ...action, data: data.state });
-          })
-          .catch((e) => {
-            next({ ...action, data: {} });
-          });
+        if (action.currentRequestPath.startsWith("/all")) {
+          axiosPost("/all", { requestPath: action.currentRequestPath })
+            .then((data) => {
+              next({ ...action, data: data.state });
+            })
+            .catch((e) => {
+              next({ ...action, data: {} });
+            });
+        } else {
+          axiosPost("/recover", { requestPath: action.currentRequestPath })
+            .then((data) => {
+              next({ ...action, data: data.state });
+            })
+            .catch((e) => {
+              next({ ...action, data: {} });
+            });
+        }
       } else {
         next(action);
       }
@@ -153,6 +163,10 @@ export default createStore(
                 0,
                 it.fileTypeExtention.lastIndexOf("/")
               );
+              if (it.fileTypeExtention === "text/html") {
+                it["preview"] = true;
+                it["linkPreview"] = `/file/${it.relativePath}/html/${it.id}`;
+              }
               linkTarget = `/file/${it.relativePath}/${extention}/${it.id}`;
             } else {
               linkTarget = `/all/${it.relativePath}`;

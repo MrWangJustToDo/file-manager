@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const express = require("express");
+const mime = require("mime-types");
 
 // 文件传入流对象
 const MyReadAbleStream = require("./lib/readAbleStream").MyReadable;
@@ -25,7 +26,8 @@ const wsToMap = {};
 
 let getCurrentFolder = express();
 let getRecoverFolder = express();
-let getCurrentFile = express();
+let getCurrentFileByPost = express();
+let getCurrentFileByGet = express();
 let getCurrentFileSize = express();
 let submitFile = express();
 let uploadFile = express();
@@ -46,14 +48,19 @@ async function sendRootFolderSize(ws, req) {
 // 请求指定文件夹
 getCurrentFolder.use(async (req, res, next) => {
   try {
-    let currentPath = path.join(req.rootFolder, req.path);
+    let currentPath = path.join(
+      req.rootFolder,
+      req.body.requestPath.split("/all")[1] || ""
+    );
     let data = await getFolder(req.rootFolder, currentPath);
-    await sendRootFolderSize(wsToMap[req.user.username], req);
     res.json({ code: 0, state: data });
   } catch (e) {
     console.log(e);
     res.json({ code: -1, state: "fail" });
   }
+  try {
+    await sendRootFolderSize(wsToMap[req.user.username], req);
+  } catch (e) {}
 });
 
 // 请求回收站中文件
@@ -68,11 +75,22 @@ getRecoverFolder.use(async (req, res, next) => {
 });
 
 // 请求文件
-getCurrentFile.use((req, res, next) => {
+getCurrentFileByPost.use(async (req, res, next) => {
+  try {
+    let currentPath = path.join(req.rootFolder, req.body.requestPath);
+    console.log("获取文件: ", currentPath);
+    await res.sendFile(currentPath);
+  } catch (e) {
+    console.log(e);
+    res.json({ code: -1, state: "fail" });
+  }
+});
+
+getCurrentFileByGet.use(async (req, res, next) => {
   try {
     let currentPath = path.join(req.rootFolder, req.path);
     console.log("获取文件: ", currentPath);
-    res.sendFile(currentPath);
+    await res.sendFile(currentPath);
   } catch (e) {
     console.log(e);
     res.json({ code: -1, state: "fail" });
@@ -147,9 +165,10 @@ submitFile.use(async (req, res, next) => {
 uploadFile.use(async (req, res, next) => {
   // 获取上传的文件,将其移动到指定文件夹
   req.body.uploadFolder = path.resolve(req.rootFolder, req.body.uploadFolder);
+  let re;
   try {
     // 获取根文件夹大小
-    let re = await getFolderSize(req.rootFolder);
+    re = await getFolderSize(req.rootFolder);
     if (+re + req.file.size > 1000000000) {
       throw new Error("空间超出限制");
     }
@@ -165,7 +184,6 @@ uploadFile.use(async (req, res, next) => {
       req.file.filename,
       req.file.originalname
     );
-    wsToMap[req.user.username].send(re + req.file.size);
     res.json({ code: 0, state: "success" });
   } catch (e) {
     console.log(e);
@@ -184,6 +202,9 @@ uploadFile.use(async (req, res, next) => {
     } catch (e) {}
     res.json({ code: -1, state: "fail" });
   }
+  try {
+    wsToMap[req.user.username].send(+re + req.file.size);
+  } catch (e) {}
 });
 
 // 删除文件/文件夹
@@ -194,12 +215,14 @@ deleteItem.use(async (req, res, next) => {
     await Promise.all(
       currentFiles.map((it) => deleteItemByPath(req.rootFolder, it))
     );
-    await sendRootFolderSize(wsToMap[req.user.username], req);
     res.json({ code: 0, state: "success" });
   } catch (e) {
     console.log(e);
     res.json({ code: -1, state: "fail" });
   }
+  try {
+    await sendRootFolderSize(wsToMap[req.user.username], req);
+  } catch (e) {}
 });
 
 // 重命名文件/文件夹
@@ -238,30 +261,34 @@ recoverItem.use(async (req, res, next) => {
   );
   try {
     await moveItemByPath(shortName, srcResolveDir, targetResolveDir);
-    await sendRootFolderSize(wsToMap[req.user.username], req);
     res.json({ code: 0, state: "success" });
   } catch (e) {
     console.log(e);
     res.json({ code: -1, state: "fail" });
   }
+  try {
+    await sendRootFolderSize(wsToMap[req.user.username], req);
+  } catch (e) {}
 });
 
 // 新建文件
 createFile.use(async (req, res, next) => {
   let currentPath = path.resolve(
     req.rootFolder,
-    req.body.relativePath,
+    req.body.relativePath || "",
     req.body.fileName
   );
   console.log("将要创建文件: ", currentPath);
   try {
     await createFileByPath(currentPath);
-    await sendRootFolderSize(wsToMap[req.user.username], req);
     res.json({ code: 0, state: "success" });
   } catch (e) {
     console.log(e);
     res.json({ code: -1, state: "fail" });
   }
+  try {
+    await sendRootFolderSize(wsToMap[req.user.username], req);
+  } catch (e) {}
 });
 
 // 复制文件
@@ -279,14 +306,14 @@ copyFile.use(async (req, res, next) => {
     "到",
     targetResolvePath
   );
+  let re;
   try {
     await copyFileByPath(fileName, srcResolvePath, targetResolvePath);
     // 获取根文件夹大小
-    let re = await getFolderSize(req.rootFolder);
+    re = await getFolderSize(req.rootFolder);
     if (re > 1000000000) {
       throw new Error("超出空间限制");
     }
-    wsToMap[req.user.username].send(re);
     res.json({ code: 0, state: "success" });
   } catch (e) {
     console.log(e);
@@ -299,24 +326,29 @@ copyFile.use(async (req, res, next) => {
     } catch (e) {}
     res.json({ code: -1, state: "fail" });
   }
+  try {
+    wsToMap[req.user.username].send(re);
+  } catch (e) {}
 });
 
 // 创建文件夹
 createFolder.use(async (req, res, next) => {
   let currentPath = path.resolve(
     req.rootFolder,
-    req.body.relativePath,
+    req.body.relativePath || "",
     req.body.folderName
   );
   console.log("将要创建文件夹: ", currentPath);
   try {
     await createFolderByPath(currentPath);
-    await sendRootFolderSize(wsToMap[req.user.username], req);
     res.json({ code: 0, state: "success" });
   } catch (e) {
     console.log(e);
     res.json({ code: -1, state: "fail" });
   }
+  try {
+    await sendRootFolderSize(wsToMap[req.user.username], req);
+  } catch (e) {}
 });
 
 // 下载文件
@@ -325,9 +357,10 @@ downloadFile.use(async (req, res, next) => {
   console.log("将要下载文件: ", currentFile, "文件名: ", req.body.fileName);
   try {
     res.setHeader(
-      "Content-Disposition",
-      "attachment; fileName=" + req.body.fileName
+      "Content-disposition",
+      "attachment; fileName=" + encodeURIComponent(req.body.fileName)
     );
+    res.setHeader("Content-type", mime.lookup(req.body.fileName));
     res.contentType("application/octet-stream");
     res.sendFile(currentFile);
   } catch (e) {
@@ -341,7 +374,8 @@ downloadFile.use(async (req, res, next) => {
 
 exports.getCurrentFolder = getCurrentFolder;
 exports.getRecoverFolder = getRecoverFolder;
-exports.getCurrentFile = getCurrentFile;
+exports.getCurrentFileByPost = getCurrentFileByPost;
+exports.getCurrentFileByGet = getCurrentFileByGet;
 exports.getCurrentFileSize = getCurrentFileSize;
 exports.submitFile = submitFile;
 exports.uploadFile = uploadFile;

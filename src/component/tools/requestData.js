@@ -41,7 +41,7 @@ function addFile(relativePath, fileName) {
 // 文件移到回收站
 function moveFile(shortName, srcRelativePath) {
   return axios
-    .post(`/recover`, { shortName, srcRelativePath })
+    .post(`/recoverItem`, { shortName, srcRelativePath })
     .then((res) => res.data);
 }
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Redirect, Route, Switch, useHistory } from "react-router";
+import { Redirect, Route, Switch, useHistory, useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import Head from "./head/head";
 import Nav from "./nav/nav";
@@ -11,6 +11,7 @@ import "animate.css";
 function Home() {
   let history = useHistory();
   let dispatch = useDispatch();
+  let location = useLocation();
   let { recoverModel, isLogin, loginUsername } = useSelector((state) => state);
 
   // 未登录跳转
@@ -20,7 +21,7 @@ function Home() {
       autoLogin().then((data) => {
         if (data.code === 0) {
           dispatch({ type: "login", username: data.state });
-          history.push("/all");
+          history.push(location.pathname);
         } else {
           history.push("/login");
         }

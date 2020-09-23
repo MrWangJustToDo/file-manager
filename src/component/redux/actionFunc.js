@@ -103,9 +103,17 @@ const reducerFunction = {
   enableRecoverModel(state, action) {
     return produce(state, (proxy) => {
       proxy.recoverModel = true;
+      proxy.isLoaded = false;
       proxy.fileModel = false;
       proxy.echartsModel = false;
       proxy.preRequestPath = action.currentRequestPath;
+    });
+  },
+
+  // 更改isLoaded状态,避免旧数据
+  changeisLoadedToFalse(state) {
+    return produce(state, (proxy) => {
+      proxy.isLoaded = false;
     });
   },
 

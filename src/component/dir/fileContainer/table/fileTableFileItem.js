@@ -49,7 +49,7 @@ function FileTableFileItem(props) {
           <FileTableFileItemRename {...props} />
         ) : (
           <Link
-            to={props.linkTarget}
+            to={props.preview ? props.linkPreview : props.linkTarget}
             onClick={() => dispatch({ type: "menuHide" })}
           >
             {props.shortPath}

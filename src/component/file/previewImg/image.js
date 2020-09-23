@@ -15,7 +15,7 @@ function Image() {
         {load && <ZoomButton />}
         <BackButton />
         <img
-          src={`/file/${src}`}
+          src={`/src/${src}`}
           height="100%"
           width="auto"
           alt="图片"

@@ -10,6 +10,7 @@ function NavFile() {
   let fileHandler = useCallback(
     (e) => {
       if (recoverModel) {
+        dispatch({ type: "changeisLoadedToFalse" });
         history.push(preRequestPath);
       }
       dispatch({ type: "enableFileModel" });

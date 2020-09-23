@@ -8,6 +8,7 @@ function File() {
   // 判断当前资源是否加载
   let history = useHistory();
   let { isLogin } = useSelector((state) => state);
+
   if (!isLogin) {
     history.push("/login");
   }
