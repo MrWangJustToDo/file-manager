@@ -13,7 +13,8 @@ function HTML() {
       let re = data.split("\n");
       let base = `<base href="/src/${src}" />`;
       re.splice(2, 0, base);
-      iframe.contentWindow.document.write(re.join(""));
+      iframe.contentWindow.document.write(re.join("\n"));
+      iframe.contentWindow.document.close();
     });
   }, [src]);
 
