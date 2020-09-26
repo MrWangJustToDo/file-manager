@@ -48,7 +48,7 @@ function FileContainerHeadDownloadFile() {
       )}
       <label className="inline-flex-center" onClick={downloadHandler}>
         <span className="block">
-          <i className="fas fa-file-medical"></i>
+          <i className="fas fa-file-download"></i>
           下载选中
         </span>
       </label>

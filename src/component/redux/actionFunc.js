@@ -56,6 +56,7 @@ const reducerFunction = {
   logout(state) {
     return produce(state, (proxy) => {
       proxy.isLogin = false;
+      proxy.isLoaded = false;
       proxy.loginUsername = "";
     });
   },
