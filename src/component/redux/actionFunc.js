@@ -58,6 +58,8 @@ const reducerFunction = {
       proxy.isLogin = false;
       proxy.isLoaded = false;
       proxy.loginUsername = "";
+      proxy.currentRequestPath = "";
+      proxy.currentRequestPathArr = [];
     });
   },
 
