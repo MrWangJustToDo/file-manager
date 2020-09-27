@@ -187,6 +187,7 @@
 .iframe-container .iframe iframe {
   width: 100%;
   min-height: 100%;
+  background-color: #fff;
 }
 
 .iframe-container .close-iframe {

@@ -293,6 +293,13 @@ const reducerFunction = {
           if (it.fileType === "file") {
             let fileTypeExtention = mime.lookup(action.newName) || "undefined";
             it.fileTypeExtention = fileTypeExtention;
+            if (fileTypeExtention === "text/html") {
+              it.preview = true;
+              it.linkPreview = `/file/${relativePath}/html/${it.id}`;
+            } else {
+              it.preview = false;
+              it.linkPreview = "";
+            }
             let extention = fileTypeExtention.slice(
               0,
               fileTypeExtention.lastIndexOf("/")
