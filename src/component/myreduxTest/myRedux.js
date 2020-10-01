@@ -28,6 +28,7 @@ class Store {
   // 添加额外触发器的函数,每一次dispath后都会执行的函数
   subscribe = (listener) => {
     this.listeners.push(listener);
+    // 返回一个取消监听的函数
     return () =>
       (this.listeners = this.listeners.filter((it) => it != listener));
   };
