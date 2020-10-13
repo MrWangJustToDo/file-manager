@@ -25,6 +25,7 @@ const {
   createFolder,
   downloadFile,
   wsToMap,
+  sendRootFolderSize,
 } = require("./api");
 const createFolderByPath = require("./lib/createFolder").createFolderByPath;
 
@@ -281,6 +282,9 @@ wss.on("connection", (ws, req) => {
     console.log(username, "的webSocket断开连接");
     delete wsToMap[username];
   });
+  try {
+    async () => await sendRootFolderSize(ws, req);
+  } catch (e) {}
 });
 
 server.listen(port, () => {

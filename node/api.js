@@ -1,7 +1,6 @@
 const fs = require("fs");
 const path = require("path");
 const express = require("express");
-const mime = require("mime-types");
 
 // 文件传入流对象
 const MyReadAbleStream = require("./lib/readAbleStream").MyReadable;
@@ -389,3 +388,4 @@ exports.createFolder = createFolder;
 exports.downloadFile = downloadFile;
 exports.wsToMap = wsToMap;
 exports.getFolderSize = getFolderSize;
+exports.sendRootFolderSize = sendRootFolderSize;

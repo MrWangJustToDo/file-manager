@@ -42,12 +42,27 @@ function Ediotr() {
       if (fileTypeExtention) {
         code.setOption("mode", fileTypeExtention);
       }
+      // 获取过渡元素
+      let loadItem = jquery(load.current);
       if (length > editableLength) {
         setEditable(false);
-        code.setValue(" 文件内容过大,不支持预览 ");
+        promiseNext(500, () => {
+          loadItem.css("height", 0);
+        })
+          .then(() =>
+            promiseNext(100, () => {
+              loadItem.children("div").remove();
+            })
+          )
+          .then(() =>
+            promiseNext(420, () => {
+              loadItem.remove();
+            })
+          )
+          .then(() => {
+            code.setValue(" 文件内容过大,不支持预览 ");
+          });
       } else {
-        // 获取过渡元素
-        let loadItem = jquery(load.current);
         axiosPost("/file/", { requestPath: path })
           .then((data) => {
             promiseNext(500, () => {
