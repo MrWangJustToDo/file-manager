@@ -356,13 +356,14 @@ downloadFile.use(async (req, res, next) => {
   let currentFile = path.resolve(req.rootFolder, req.body.relativePath);
   console.log("将要下载文件: ", currentFile, "文件名: ", req.body.fileName);
   try {
-    res.setHeader(
-      "Content-disposition",
-      "attachment; fileName=" + encodeURIComponent(req.body.fileName)
-    );
-    res.setHeader("Content-type", mime.lookup(req.body.fileName));
-    res.contentType("application/octet-stream");
-    res.sendFile(currentFile);
+    // res.setHeader(
+    //   "Content-disposition",
+    //   "attachment; fileName=" + encodeURIComponent(req.body.fileName)
+    // );
+    // res.setHeader("Content-type", mime.lookup(req.body.fileName));
+    // res.contentType("application/octet-stream");
+    // res.sendFile(currentFile);
+    res.download(currentFile);
   } catch (e) {
     console.log(e);
     res.json({

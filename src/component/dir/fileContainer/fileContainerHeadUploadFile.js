@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
@@ -10,6 +10,7 @@ function FileContainerHeadUpdataFile() {
   let link = useRef();
   let dispatch = useDispatch();
   let location = useLocation();
+  let [disable, setDisable] = useState(false);
   let { data, msgState, msgType, currentRequestPath } = useSelector(
     (state) => state
   );
@@ -23,6 +24,8 @@ function FileContainerHeadUpdataFile() {
     uploadData.append("file", ref.current.files[0]);
     // 文件名
     let fileName = ref.current.files[0].name.split(/\s+/).join("");
+    // 不可再次点击上传
+    setDisable(true);
     uploadFile(ref.current.parentElement, uploadData).then((res) => {
       if (res.code === 0) {
         let relativePath = data.relativePath
@@ -45,9 +48,10 @@ function FileContainerHeadUpdataFile() {
         });
         dispatch({ type: "enableMsg" });
       }
+      setDisable(false);
       ref.current.value = "";
     });
-  }, [data, currentRequestPath, dispatch]);
+  }, [data, currentRequestPath, dispatch, setDisable]);
 
   useEffect(() => {
     if (msgState && msgType === "uploadFile" && link.current) {
@@ -72,6 +76,7 @@ function FileContainerHeadUpdataFile() {
         id="upload"
         onChange={updateHandler}
         ref={ref}
+        disabled={disable}
       />
     </label>
   );

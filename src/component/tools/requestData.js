@@ -47,24 +47,31 @@ function moveFile(shortName, srcRelativePath) {
 
 // 文件下载
 function downloadFile(relativePath, fileName) {
-  return axios({
-    url: "/download",
-    method: "post",
-    data: { relativePath, fileName },
-    responseType: "blob",
-  }).then((res) => {
-    if (res.status === 200) {
-      const url = window.URL.createObjectURL(new Blob([res.data]));
-      const link = document.createElement("a");
-      link.style.display = "none";
-      link.href = url;
-      link.setAttribute("download", fileName);
-      document.body.append(link);
-      link.click();
-      URL.revokeObjectURL(link.href);
-      link.remove();
-    }
-  });
+  let a = document.createElement("a");
+  a.href = `/src/${relativePath}`;
+  a.setAttribute("download", fileName);
+  a.style.display = "none";
+  document.body.append(a);
+  a.click();
+  a.remove();
+  // return axios({
+  //   url: "/download",
+  //   method: "post",
+  //   data: { relativePath, fileName },
+  //   responseType: "blob",
+  // }).then((res) => {
+  //   if (res.status === 200) {
+  //     const url = window.URL.createObjectURL(new Blob([res.data]));
+  //     const link = document.createElement("a");
+  //     link.style.display = "none";
+  //     link.href = url;
+  //     link.setAttribute("download", fileName);
+  //     document.body.append(link);
+  //     link.click();
+  //     URL.revokeObjectURL(link.href);
+  //     link.remove();
+  //   }
+  // });
 }
 
 // 文件上传
