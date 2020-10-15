@@ -57,6 +57,7 @@ const reducerFunction = {
     return produce(state, (proxy) => {
       proxy.isLogin = false;
       proxy.isLoaded = false;
+      proxy.totalSize = 0;
       proxy.loginUsername = "";
       proxy.currentRequestPath = "";
       proxy.currentRequestPathArr = [];

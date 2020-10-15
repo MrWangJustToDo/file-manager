@@ -33,7 +33,7 @@ function RenameInput(props) {
               type: "renameSuccess",
               id: props.id,
               originName: props.shortPath,
-              newName: value,
+              newName: value.replace(/\s+/g, ""),
             });
             promiseNext(0, () => {
               item.addClass("success-submit");
