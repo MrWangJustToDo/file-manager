@@ -186,6 +186,7 @@ app.post("/logout", (req, res, next) => {
 
 // 检测用户名是否可用
 app.get("/register-check", async (req, res, next) => {
+  // let {count} = await db.get('SELECT count(*) as count from users');
   if (req.query.username) {
     let data = await db.get(
       "SELECT * FROM users WHERE username = ?",

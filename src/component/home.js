@@ -12,7 +12,7 @@ function Home() {
   let history = useHistory();
   let dispatch = useDispatch();
   let location = useLocation();
-  let { recoverModel, isLogin, loginUsername } = useSelector((state) => state);
+  let { recoverModel, isLogin } = useSelector((state) => state);
 
   // 未登录跳转
   useEffect(() => {
@@ -29,19 +29,7 @@ function Home() {
     }
   });
 
-  // 使用webSocket实时更新rootFolderSize
-  useEffect(() => {
-    let ws;
-    if (isLogin) {
-      let a = document.createElement("a");
-      a.href = `/${loginUsername}`;
-      ws = new WebSocket(`ws://${a.host}/${loginUsername}`);
-      ws.onmessage = (e) => {
-        dispatch({ type: "updataRootFolderSize", rootFolderSize: e.data });
-      };
-    }
-    return () => ws && ws.close();
-  }, [isLogin, loginUsername, dispatch]);
+  
 
   return (
     <div className="absolute height-inherit width-inherit animate__animated animate__fadeIn animate__faster">
