@@ -36,10 +36,10 @@ const port = 10010;
 const InviteCode = ["mrwang"];
 
 // 存储所有用户文件夹的文件
-const BaseDir = "/home/mrwang/Downloads";
+const BaseDir = "/root";
 
 // 缓存地址
-const tempFolder = "/home/mrwang/Downloads/cache";
+const tempFolder = "/root/cache";
 
 // 上传文件缓存
 let upload = multer({ dest: tempFolder });
@@ -58,7 +58,7 @@ app.use(
   })
 );
 
-// app.use(express.static("../build"));
+app.use(express.static("../build"));
 
 // 绑定数据库文件
 app.use(async (req, rex, next) => {
